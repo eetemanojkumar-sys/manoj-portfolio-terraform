@@ -1,0 +1,1 @@
+Portfolio integration: The attached HTML has been inspected; the page has inline CSS/JS and links to resume.pdf. The original contains very large embedded C2PA image data URLs; those can be replaced with CSS gradients without affecting the portfolio's layout/interaction. Resume should only be included if you approve making the attached contact information public.
