@@ -8,10 +8,12 @@
 <meta name="theme-color" content="#050914">
 <meta property="og:title" content="Eete Manoj Kumar | Cloud Engineer">
 <meta property="og:description" content="Cloud infrastructure, automation, deployment and observability projects.">
+<meta property="og:type" content="website">
 <style>
 :root{--bg:#050914;--panel:#0b1324cc;--line:#20314d;--text:#eef6ff;--muted:#93a6c1;--cyan:#63dcff;--violet:#9b8cff;--green:#71efb2}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:84px}
-body{margin:0;color:var(--text);font-family:Inter,Arial,sans-serif;overflow-x:hidden;background-color:#030814;background-image:linear-gradient(180deg,rgba(2,8,22,.66),rgba(2,8,22,.76) 45%,rgba(2,8,22,.84)),linear-gradient(135deg,#061327,#030814)}
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.72}.gridbg{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(#ffffff05 1px,transparent 1px),linear-gradient(90deg,#ffffff05 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(circle at center,black,transparent 75%)}
+.orb-glow{position:absolute;width:680px;height:680px;border-radius:50%;background:radial-gradient(circle,#1679aa38,transparent 66%);filter:blur(10px);left:50%;top:50%;transform:translate(-50%,-50%);z-index:-1}
 .wrap{max-width:1180px;margin:auto;padding:0 24px}nav{position:sticky;top:0;z-index:30;background:#050914b8;backdrop-filter:blur(18px);border-bottom:1px solid #ffffff10}.nav{height:72px;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:900;letter-spacing:1px}.brand b{color:var(--cyan)}.links{display:flex;gap:22px;align-items:center}.menu-toggle{display:none;background:#0b1324;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 12px;font:inherit}.links a{color:var(--muted);text-decoration:none;font-size:14px}.links a:hover,.links a:focus-visible{color:var(--cyan)}a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
 .hero{min-height:88vh;display:grid;align-items:center;position:relative}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}.eyebrow{color:var(--cyan);font-size:13px;letter-spacing:3px;font-weight:800}.hero h1{font-size:clamp(52px,7vw,92px);line-height:.95;margin:16px 0}.gradient{background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;color:transparent}.role-title{font-size:clamp(24px,3vw,34px);margin:18px 0 10px;color:#d9eaff;letter-spacing:-.7px}.hero p{font-size:18px;max-width:650px;color:var(--muted);line-height:1.7}.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{padding:13px 18px;border:1px solid var(--line);border-radius:12px;color:var(--text);text-decoration:none;background:#0b1324a8;font-weight:700}.primary{background:linear-gradient(135deg,var(--cyan),#7da9ff);color:#04101c;border:0}
 .scene{height:500px;perspective:1100px;display:grid;place-items:center;position:relative;isolation:isolate;transform-style:preserve-3d;transition:transform .18s ease-out}.core{width:220px;height:220px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#2bc7ff,#142c6d 58%,#070d1d);box-shadow:0 0 80px #33caff77,inset -25px -20px 40px #0009;transform-style:preserve-3d;animation:float 6s ease-in-out infinite}.core span{text-align:center;font-weight:900;font-size:27px;transform:translateZ(45px)}.devops-logo{width:100%;height:100%;overflow:visible;transform:translateZ(45px);filter:drop-shadow(0 12px 16px #02071488)}.logo-cube{transform-origin:110px 110px;animation:logoTurn 12s ease-in-out infinite alternate}@keyframes logoTurn{0%{transform:rotateY(-9deg) rotateX(4deg)}100%{transform:rotateY(9deg) rotateX(-4deg)}}.ring{position:absolute;border:1px solid #59d8ff55;border-radius:50%;transform-style:preserve-3d;animation:spin 18s linear infinite}.r1{width:410px;height:150px;transform:rotateX(72deg) rotateZ(10deg)}.r2{width:430px;height:160px;transform:rotateX(72deg) rotateZ(70deg);animation-duration:24s;animation-direction:reverse}.node{position:absolute;padding:9px 13px;border:1px solid #6cddff55;border-radius:999px;background:#081323e8;color:#dff7ff;font-size:12px;font-weight:800;box-shadow:0 8px 25px #0006}.n1{transform:translate3d(170px,-105px,80px)}.n2{transform:translate3d(-175px,-100px,50px)}.n3{transform:translate3d(175px,105px,20px)}.n4{transform:translate3d(-170px,105px,60px)}
@@ -19,52 +21,333 @@ body{margin:0;color:var(--text);font-family:Inter,Arial,sans-serif;overflow-x:hi
 section{padding:100px 0}.title{font-size:38px;margin:0 0 10px}.lead{color:var(--muted);max-width:760px;line-height:1.7;margin-bottom:35px}.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}.card{background:linear-gradient(145deg,#0d182bbf,#08111fbf);border:1px solid var(--line);border-radius:20px;padding:26px;transform-style:preserve-3d;transition:transform .18s ease,box-shadow .25s ease;box-shadow:0 20px 50px #0002}.card:hover{box-shadow:0 30px 70px #0008}.card h3{margin:0 0 10px;font-size:22px}.muted{color:var(--muted);line-height:1.7}.tags{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tag{font-size:12px;padding:7px 10px;border-radius:999px;background:#0b1a2e;border:1px solid #274565;color:#bcd9ef}.project-link{color:var(--cyan);font-weight:800;text-decoration:none}.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.skill{padding:22px;border:1px solid var(--line);border-radius:16px;background:#091526aa}.skill b{display:block;color:var(--cyan);margin-bottom:8px}.skill span{color:var(--muted);font-size:14px}.terminal{background:#030812;border:1px solid var(--line);border-radius:18px;overflow:hidden}.bar{padding:12px 16px;border-bottom:1px solid #18263d;color:#7d90a8;font-size:13px}.terminal pre{margin:0;padding:26px;white-space:pre-wrap;color:#c9d9ea;line-height:1.8}.ok{color:var(--green)}.cyan{color:var(--cyan)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.stat{padding:24px;border-radius:16px;border:1px solid var(--line);background:#0a1525}.stat strong{font-size:30px;color:var(--cyan);display:block}.contact{display:grid;grid-template-columns:1fr 1fr;gap:20px}.footer{border-top:1px solid var(--line);padding:35px 0;color:var(--muted)}
 .reveal{opacity:1;transform:none}body.motion-ready .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}body.motion-ready .reveal.show{opacity:1;transform:none}
-@media(max-width:820px){.menu-toggle{display:inline-flex}.links{display:none;position:absolute;top:71px;left:0;right:0;padding:18px 24px 22px;background:#070e1df5;border-bottom:1px solid var(--line);flex-direction:column;gap:18px}.links.open{display:flex}.hero{min-height:auto;padding:80px 0}.hero-grid,.cards,.contact{grid-template-columns:1fr}.scene{height:390px;order:-1}.skills{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr}.core{width:175px;height:175px}.r1{width:330px}.r2{width:340px}.n1{transform:translate3d(120px,-90px,30px)}.n2{transform:translate3d(-125px,-90px,30px)}.n3{transform:translate3d(120px,85px,30px)}.n4{transform:translate3d(-120px,85px,30px)}}
-@media(max-width:500px){.wrap{padding:0 18px}.skills{grid-template-columns:1fr}section{padding:70px 0}.scene{height:330px;transform:none!important}.core{width:150px;height:150px}.r1{width:285px;height:125px}.r2{width:300px;height:130px}.node{font-size:11px;padding:8px 10px}.n1{transform:translate3d(95px,-82px,20px)}.n2{transform:translate3d(-100px,-82px,20px)}.n3{transform:translate3d(100px,78px,20px)}.n4{transform:translate3d(-100px,78px,20px)}.hero h1{font-size:clamp(48px,14vw,72px)}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}body.motion-ready .reveal{opacity:1;transform:none}}
-.devops-bg-mark{position:fixed;left:50%;top:48%;width:min(76vw,760px);height:min(76vw,760px);transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:.105;filter:drop-shadow(0 0 36px rgba(91,204,255,.34));perspective:1200px;transform-style:preserve-3d}
-.devops-bg-mark svg{width:100%;height:100%;overflow:visible;animation:bgDevopsFloat 24s ease-in-out infinite alternate}.devops-bg-mark .bg-cube{transform-origin:110px 110px;animation:bgDevopsTurn 32s ease-in-out infinite alternate}
-@keyframes bgDevopsFloat{0%{transform:rotate(-7deg) scale(.96) translateY(-8px)}100%{transform:rotate(7deg) scale(1.04) translateY(10px)}}@keyframes bgDevopsTurn{0%{transform:rotateY(-18deg) rotateX(8deg)}100%{transform:rotateY(18deg) rotateX(-8deg)}}
-@media(max-width:700px){.devops-bg-mark{width:108vw;height:108vw;opacity:.07;top:42%}}@media(prefers-reduced-motion:reduce){.devops-bg-mark svg,.devops-bg-mark .bg-cube{animation:none!important}}
-body>nav,body>header,body>main,body>section,body>footer{position:relative;z-index:1}
+@media(max-width:820px){.menu-toggle{display:inline-flex}.links{display:none;position:absolute;top:71px;left:0;right:0;padding:18px 24px 22px;background:#070e1df5;border-bottom:1px solid var(--line);flex-direction:column;gap:18px}.links.open{display:flex}.hero{min-height:auto;padding:80px 0}.hero-grid,.cards,.contact{grid-template-columns:1fr}.scene{height:390px;order:-1}.skills{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr}.core{width:175px;height:175px}.r1{width:330px}.r2{width:340px}.n1{transform:translate3d(120px,-90px,30px)}.n2{transform:translate3d(-125px,-90px,30px)}.n3{transform:translate3d(120px,85px,30px)}.n4{transform:translate3d(-120px,85px,30px)}}@media(max-width:500px){.wrap{padding:0 18px}.skills{grid-template-columns:1fr}section{padding:70px 0}.scene{height:330px;transform:none!important}.core{width:150px;height:150px}.r1{width:285px;height:125px}.r2{width:300px;height:130px}.node{font-size:11px;padding:8px 10px}.n1{transform:translate3d(95px,-82px,20px)}.n2{transform:translate3d(-100px,-82px,20px)}.n3{transform:translate3d(100px,78px,20px)}.n4{transform:translate3d(-100px,78px,20px)}.hero h1{font-size:clamp(48px,14vw,72px)}}\n@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}body.motion-ready .reveal{opacity:1;transform:none}#particles{display:none}}
+
+/* Ambient 3D DevOps background emblem */
+.devops-bg-mark{
+  position:fixed;left:50%;top:48%;width:min(76vw,760px);height:min(76vw,760px);
+  transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:.105;
+  filter:drop-shadow(0 0 36px rgba(91,204,255,.34));
+  perspective:1200px;transform-style:preserve-3d;
+}
+.devops-bg-mark svg{width:100%;height:100%;overflow:visible;animation:bgDevopsFloat 24s ease-in-out infinite alternate}
+.devops-bg-mark .bg-cube{transform-origin:110px 110px;animation:bgDevopsTurn 32s ease-in-out infinite alternate}
+@keyframes bgDevopsFloat{0%{transform:rotate(-7deg) scale(.96) translateY(-8px)}100%{transform:rotate(7deg) scale(1.04) translateY(10px)}}
+@keyframes bgDevopsTurn{0%{transform:rotateY(-18deg) rotateX(8deg)}100%{transform:rotateY(18deg) rotateX(-8deg)}}
+@media(max-width:700px){.devops-bg-mark{width:108vw;height:108vw;opacity:.07;top:42%}}
+@media(prefers-reduced-motion:reduce){.devops-bg-mark svg,.devops-bg-mark .bg-cube{animation:none!important}}
+
+body > nav,body > header,body > main,body > section,body > footer{position:relative;z-index:1}
+
+
 .skills-visual{margin:42px auto 0;max-width:1100px;position:relative;border:1px solid rgba(99,220,255,.3);border-radius:22px;overflow:hidden;background:#050b18;box-shadow:0 24px 80px rgba(0,0,0,.35),0 0 40px rgba(38,160,255,.1);transform-style:preserve-3d}
 .skills-visual::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(68,197,255,.08),transparent 45%,rgba(136,85,255,.08));mix-blend-mode:screen}
-.skills-visual img{display:block;width:100%;height:auto;transition:transform .7s ease,filter .7s ease}.skills-visual:hover img{transform:scale(1.025);filter:saturate(1.08)}.skills-visual figcaption{padding:12px 18px;text-align:center;color:var(--muted,#9fb5d2);font-size:13px;letter-spacing:.06em;background:rgba(4,10,24,.94);border-top:1px solid rgba(99,220,255,.18)}
-@media(max-width:700px){.skills-visual{margin-top:26px;border-radius:14px}.skills-visual img{transform:none!important}}@media(prefers-reduced-motion:reduce){.skills-visual img{transition:none!important}}
+.skills-visual img{display:block;width:100%;height:auto;transition:transform .7s ease,filter .7s ease}
+.skills-visual:hover img{transform:scale(1.025);filter:saturate(1.08)}
+.skills-visual figcaption{padding:12px 18px;text-align:center;color:var(--muted,#9fb5d2);font-size:13px;letter-spacing:.06em;background:rgba(4,10,24,.94);border-top:1px solid rgba(99,220,255,.18)}
+@media(max-width:700px){.skills-visual{margin-top:26px;border-radius:14px}.skills-visual img{transform:none!important}}
+@media(prefers-reduced-motion:reduce){.skills-visual img{transition:none!important}}
+
+
+
+@media(max-width:700px){
+ body::before{background-position:center center;background-size:auto 100%;opacity:.38}
+}
+@media(prefers-reduced-motion:reduce){body::before{transform:none}}
+
+
+/* Full-page 3D DevOps background applied directly to the page */
+body{
+  margin:0;color:var(--text);font-family:Inter,Arial,sans-serif;overflow-x:hidden;
+  background-color:#030814;
+  background-image:linear-gradient(180deg,rgba(2,8,22,.66),rgba(2,8,22,.76) 45%,rgba(2,8,22,.84)),none;
+  background-position:center top;background-size:cover;background-repeat:no-repeat;background-attachment:fixed;
+}
+.skills-visual{display:none!important}
+@media(max-width:700px){
+ body{background-image:linear-gradient(180deg,rgba(2,8,22,.76),rgba(2,8,22,.86)),none;background-position:center top;background-size:auto 100%;background-attachment:scroll}
+}
+@media(prefers-reduced-motion:reduce){body{background-attachment:scroll}}
+
+
+/* Clean, restrained portfolio redesign */
+:root{--bg:#070b14;--panel:rgba(12,19,33,.88);--line:rgba(148,173,207,.18);--text:#f2f6fc;--muted:#a4b1c5;--cyan:#69d7f4;--violet:#a79aff;--green:#78e2b2}
+body{
+  color:var(--text);background-color:#070b14;
+  background-image:linear-gradient(180deg,rgba(5,10,20,.91),rgba(5,10,20,.94) 45%,rgba(5,10,20,.97)),none;
+  background-position:center top;background-size:cover;background-repeat:no-repeat;background-attachment:fixed;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6
+}
+nav{background:rgba(7,11,20,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav{height:76px}
+.brand{font-size:15px;letter-spacing:.04em}
+.links{gap:26px}.links a{font-size:13px;transition:color .2s ease}
+.hero{min-height:82vh;padding:64px 0}
+.hero-grid{gap:clamp(28px,5vw,72px)}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.hero h1{font-size:clamp(48px,6.2vw,82px);line-height:1.02;letter-spacing:-.065em;margin:20px 0 12px}
+.role-title{font-weight:600;letter-spacing:-.03em}
+.hero p{font-size:16px;line-height:1.8;max-width:560px}
+.btns{gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:12px 18px;border-radius:9px;font-size:13px;transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-2px);border-color:rgba(105,215,244,.5)}
+.primary{background:var(--cyan);color:#06111a;font-weight:800}
+.scene{height:430px;transform:scale(.92)}
+.core{box-shadow:0 0 55px rgba(51,202,255,.24),inset -25px -20px 40px #0009}
+.ring{border-color:rgba(105,215,244,.28)}
+.node{background:rgba(8,17,31,.9);border-color:rgba(105,215,244,.3);box-shadow:0 8px 25px #0004;font-size:11px}
+section{padding:82px 0}
+.title{font-size:clamp(29px,3.3vw,38px);letter-spacing:-.045em;margin-bottom:8px}
+.lead{font-size:15px;line-height:1.8;color:var(--muted);margin-bottom:30px}
+.cards{gap:16px}
+.card{padding:24px;border-radius:14px;background:rgba(10,17,30,.86);border-color:var(--line);box-shadow:0 12px 36px rgba(0,0,0,.12);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.card:hover{transform:translateY(-3px);border-color:rgba(105,215,244,.35);box-shadow:0 16px 38px rgba(0,0,0,.22);background:rgba(12,21,37,.94)}
+.card h3{font-size:19px;letter-spacing:-.02em}
+.muted{font-size:14px}
+.tags{gap:7px;margin:15px 0}
+.tag{font-size:11px;padding:5px 9px;border-radius:6px;background:rgba(17,31,50,.9);border-color:rgba(148,173,207,.15);color:#c3d1e2}
+.skills{grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.skill{padding:19px;border-radius:12px;background:rgba(10,17,30,.86);border-color:var(--line);transition:transform .2s ease,border-color .2s ease}
+.skill:hover{transform:translateY(-2px);border-color:rgba(105,215,244,.32)}
+.skill b{font-size:13px;color:var(--cyan);margin-bottom:9px}
+.skill span{display:block;font-size:13px;line-height:1.75}
+.stats{gap:13px}.stat{padding:21px;border-radius:12px;background:rgba(10,17,30,.86);border-color:var(--line)}
+.stat strong{font-size:27px}
+.terminal{border-radius:13px;background:rgba(3,8,18,.94)}
+.terminal pre{font-size:13px;padding:22px}
+.contact{gap:16px}
+.footer{padding:28px 0;font-size:12px;border-color:var(--line)}
+.devops-bg-mark{opacity:.045!important}
+#particles{opacity:.25}
+.gridbg{opacity:.18}
+@media(max-width:820px){
+ .hero{padding:52px 0 30px;min-height:auto}
+ .hero-grid{gap:18px}
+ .scene{height:350px;transform:scale(.86);order:0}
+ section{padding:64px 0}
+ .skills{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .links{gap:18px}
+}
+@media(max-width:560px){
+ .wrap{padding:0 20px}
+ .hero{padding:42px 0 22px}
+ .hero-grid{grid-template-columns:1fr}
+ .scene{height:280px;transform:scale(.75);margin:-8px 0 0}
+ .hero h1{font-size:clamp(45px,13vw,64px)}
+ .hero p{font-size:15px}
+ section{padding:54px 0}
+ .title{font-size:29px}
+ .skills,.cards,.contact{grid-template-columns:1fr}
+ .skill,.card{padding:19px}
+ .stats{grid-template-columns:1fr}
+ .btn{min-height:44px}
+ body{background-attachment:scroll;background-size:auto 100%}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+
 </style>
 </head>
 <body>
-<div class="gridbg"></div><div class="orb-glow"></div>
-<div class="devops-bg-mark" aria-hidden="true"><svg viewBox="0 0 220 220" role="img"><g class="bg-cube" fill="none" stroke="#63dcff" stroke-width="2"><path d="M110 20 190 65 190 155 110 200 30 155 30 65Z M110 20V110L190 65 M110 110 30 65 M110 110V200 M30 155 110 110 190 155"/></g></svg></div>
-<nav><div class="wrap nav"><a class="brand" href="#" aria-label="Manoj Kumar home">EETE <b>MANOJ</b></a><button class="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button><div class="links" id="nav-links"><a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#experience">Experience</a><a href="#contact">Contact</a></div></div></nav>
-<main>
-<section class="hero"><div class="wrap hero-grid"><div><p class="eyebrow">CLOUD · DEVOPS · AUTOMATION</p><h1>Eete Manoj <span class="gradient">Kumar</span></h1><h2 class="role-title">Cloud &amp; DevOps Engineer</h2><p>I build cloud infrastructure, automate deployments, and monitor reliable systems using AWS, Terraform, containers, CI/CD, and observability tools.</p><div class="btns"><a class="btn primary" href="#projects">Explore Projects</a><a class="btn" href="resume.pdf" target="_blank" rel="noopener noreferrer">Download Resume</a><a class="btn" href="https://github.com/eetemanojkumar-sys" target="_blank" rel="noopener noreferrer">GitHub</a></div></div>
-<div class="scene" aria-hidden="true"><div class="ring r1"></div><div class="ring r2"></div><div class="core"><span>DEV<br>OPS</span></div><div class="node n1">AWS</div><div class="node n2">Terraform</div><div class="node n3">Kubernetes</div><div class="node n4">CI/CD</div></div></div></section>
-<section id="about" class="reveal"><div class="wrap"><h2 class="title">About Me</h2><p class="lead">Entry-level Cloud and DevOps Engineer with hands-on project experience designing, automating, and deploying cloud infrastructure. I enjoy solving infrastructure problems and building repeatable, observable delivery workflows.</p><div class="stats"><div class="stat"><strong>4+</strong><span class="muted">Cloud &amp; DevOps projects</span></div><div class="stat"><strong>AWS</strong><span class="muted">Cloud infrastructure</span></div><div class="stat"><strong>IaC</strong><span class="muted">Terraform automation</span></div></div></div></section>
-<section id="skills" class="reveal"><div class="wrap"><h2 class="title">Technical Skills</h2><p class="lead">Tools I use to provision, deploy, operate, and monitor applications.</p><div class="skills"><div class="skill"><b>Cloud</b><span>AWS · EC2 · VPC · IAM · ALB · Auto Scaling · S3 · RDS · EFS · Route 53</span></div><div class="skill"><b>Infrastructure as Code</b><span>Terraform · Modules · Variables · Outputs · Remote State</span></div><div class="skill"><b>Configuration Management</b><span>Ansible · Playbooks · Roles · Inventory</span></div><div class="skill"><b>Containers</b><span>Docker · Kubernetes · Helm</span></div><div class="skill"><b>CI/CD</b><span>Jenkins · Git · GitHub · Webhooks · Pipelines</span></div><div class="skill"><b>Monitoring</b><span>Prometheus · Grafana · CloudWatch · Alerting</span></div><div class="skill"><b>Operating Systems</b><span>Linux · Ubuntu · Amazon Linux · Windows</span></div><div class="skill"><b>Networking</b><span>TCP/IP · DNS · Load Balancing · VPN · Subnetting</span></div><div class="skill"><b>Scripting &amp; Web</b><span>Python · Bash · YAML · Nginx</span></div></div></div></section>
-<section id="projects" class="reveal"><div class="wrap"><h2 class="title">Featured Projects</h2><p class="lead">Hands-on implementations across infrastructure, continuous delivery, Kubernetes, and observability.</p><div class="cards">
-<article class="card"><h3>AWS 3-Tier Architecture</h3><p class="muted">Provisioned multi-tier AWS infrastructure with Terraform and automated application configuration with Ansible, including VPC networking, load balancing, Auto Scaling, RDS and EFS.</p><div class="tags"><span class="tag">AWS</span><span class="tag">Terraform</span><span class="tag">Ansible</span><span class="tag">RDS</span></div><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys/terraform-project-3-tier-architecture">View project ↗</a></article>
-<article class="card"><h3>Automated CI/CD Pipeline</h3><p class="muted">Built Jenkins pipeline automation with GitHub Webhooks and Docker to make builds and deployments repeatable on AWS EC2.</p><div class="tags"><span class="tag">Jenkins</span><span class="tag">Docker</span><span class="tag">GitHub</span><span class="tag">EC2</span></div><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys/CI-CD-Project-by-jenkins-using-docker-as-agent">View project ↗</a></article>
-<article class="card"><h3>Kubernetes Nginx Deployment</h3><p class="muted">Deployed Nginx with Kubernetes Deployments, Services, ConfigMaps, Secrets and Namespaces; managed workloads with labels and selectors.</p><div class="tags"><span class="tag">Kubernetes</span><span class="tag">Docker</span><span class="tag">YAML</span></div><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys/kubernetes-nginx-project">View project ↗</a></article>
-<article class="card"><h3>Kubernetes Monitoring Stack</h3><p class="muted">Installed Prometheus and Grafana using Helm to monitor cluster health, dashboards, CPU/memory, nodes, pods and rule-based alerts.</p><div class="tags"><span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">Helm</span></div><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys/kubernetes-monitoring-stack">View project ↗</a></article>
-<article class="card"><h3>Modular Terraform Portfolio Hosting</h3><p class="muted">This project: use modular Terraform to provision EC2/Nginx and S3 static hosting, with EC2 reading portfolio files from S3 using least-privilege IAM.</p><div class="tags"><span class="tag">Terraform Modules</span><span class="tag">S3</span><span class="tag">EC2</span><span class="tag">IAM</span></div><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys/manoj-portfolio-terraform">View repository ↗</a></article>
+<div class="devops-bg-mark" aria-hidden="true">
+<svg viewBox="0 0 220 220" role="presentation">
+<defs>
+ <linearGradient id="bgLogoTop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3fcff"/><stop offset=".5" stop-color="#63dcff"/><stop offset="1" stop-color="#8c7dff"/></linearGradient>
+ <linearGradient id="bgLogoLeft" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#328fdb"/><stop offset="1" stop-color="#122e68"/></linearGradient>
+ <linearGradient id="bgLogoRight" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#625fe0"/><stop offset="1" stop-color="#0a163c"/></linearGradient>
+ <filter id="bgLogoGlow"><feGaussianBlur stdDeviation="2.8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<g class="bg-cube" filter="url(#bgLogoGlow)" stroke-linejoin="round" stroke-width="1.6">
+ <path d="M110 24 190 68 110 113 30 68Z" fill="url(#bgLogoTop)" stroke="#9deeff"/>
+ <path d="M30 68 110 113 110 201 30 155Z" fill="url(#bgLogoLeft)" stroke="#69dfff"/>
+ <path d="M190 68 110 113 110 201 190 155Z" fill="url(#bgLogoRight)" stroke="#a09bff"/>
+ <path d="M67 68 110 44 153 68 110 93Z" fill="#07162c" stroke="#c9f8ff"/>
+ <path d="M67 68 110 93 110 143 67 118Z" fill="#123f72" stroke="#70e4ff"/>
+ <path d="M153 68 110 93 110 143 153 118Z" fill="#29276f" stroke="#aaa3ff"/>
+ <path d="M88 69 110 57 132 69 110 82Z" fill="#c5f8ff"/>
+ <path d="M88 69 110 82 110 108 88 95Z" fill="#2e9ad5"/>
+ <path d="M132 69 110 82 110 108 132 95Z" fill="#766af1"/>
+</g>
+</svg>
+</div>
+<canvas id="particles"></canvas><div class="gridbg"></div>
+<nav><div class="wrap nav"><div class="brand">EETE <b>MANOJ KUMAR</b></div><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-links">Menu</button><div class="links" id="site-links"><a href="#about">About</a><a href="#skills">Stack</a><a href="#projects">Projects</a><a href="#experience">Experience</a><a href="#contact">Contact</a></div></div></nav>
+
+<section class="hero"><div class="orb-glow"></div><div class="wrap hero-grid">
+<div><div class="eyebrow">CLOUD ENGINEERING • AUTOMATION • RELIABILITY</div><h1>Eete Manoj<br><span class="gradient">Kumar</span></h1><h2 class="role-title">Cloud Engineer</h2><p>Designing, deploying and monitoring scalable cloud infrastructure with AWS, Infrastructure as Code, CI/CD, containers and observability tools.</p>
+<div class="btns"><a class="btn primary" href="#projects">Explore Projects</a><a class="btn" href="resume.pdf" download>Download ATS Resume</a><a class="btn" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys">GitHub ↗</a></div></div>
+<div class="scene" id="scene"><div class="ring r1"></div><div class="ring r2"></div><div class="core" aria-label="3D DevOps emblem">
+<svg class="devops-logo" viewBox="0 0 220 220" role="img" aria-labelledby="devops-logo-title">
+<title id="devops-logo-title">DevOps 3D emblem</title>
+<defs>
+ <linearGradient id="logoFace" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d8fbff"/><stop offset=".48" stop-color="#63dcff"/><stop offset="1" stop-color="#8c7dff"/></linearGradient>
+ <linearGradient id="logoSide" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#246dbe"/><stop offset="1" stop-color="#111d55"/></linearGradient>
+ <filter id="logoGlow"><feGaussianBlur stdDeviation="3.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<g class="logo-cube" filter="url(#logoGlow)" stroke-linejoin="round">
+ <path d="M110 43 169 76 110 109 51 76Z" fill="url(#logoFace)" stroke="#d8fbff" stroke-opacity=".9" stroke-width="1.5"/>
+ <path d="M51 76 110 109 110 174 51 140Z" fill="#1c4e91" stroke="#68dfff" stroke-width="1.5"/>
+ <path d="M169 76 110 109 110 174 169 140Z" fill="url(#logoSide)" stroke="#8d8cff" stroke-width="1.5"/>
+ <path d="M79 76 110 59 141 76 110 93Z" fill="#08172c" stroke="#c4f7ff" stroke-width="1.5"/>
+ <path d="M79 76 110 93 110 128 79 111Z" fill="#0d2747" stroke="#72e6ff" stroke-width="1.5"/>
+ <path d="M141 76 110 93 110 128 141 111Z" fill="#111d4e" stroke="#a8a1ff" stroke-width="1.5"/>
+ <path d="M94 79 110 70 126 79 110 88Z" fill="#63dcff"/>
+ <path d="M94 79 110 88 110 106 94 97Z" fill="#2276bd"/>
+ <path d="M126 79 110 88 110 106 126 97Z" fill="#685de2"/>
+</g>
+<text x="110" y="197" text-anchor="middle" font-size="16" font-weight="900" letter-spacing="2.5" fill="#e8faff">DEVOPS</text>
+</svg>
+</div><div class="node n1">☁ AWS</div><div class="node n2">⚙ Terraform</div><div class="node n3">🐳 Docker</div><div class="node n4">☸ Kubernetes</div></div>
+</div></section>
+
+<section id="about" class="reveal"><div class="wrap"><h2 class="title">Engineer. Builder. Problem Solver.</h2><p class="lead">Cloud Engineer with hands-on project experience designing and deploying AWS infrastructure, automating provisioning with Infrastructure as Code, configuring environments, and building reliable, observable cloud workloads.</p><div class="stats"><div class="stat"><strong>AWS</strong>Cloud infrastructure & architecture</div><div class="stat"><strong>IaC</strong>Terraform + Ansible automation</div><div class="stat"><strong>15+</strong>Monitoring metrics in Kubernetes stack</div></div></div></section>
+
+<section id="skills" class="reveal"><div class="wrap"><h2 class="title">Tools &amp; Technologies</h2><p class="lead">Cloud and engineering tools I have worked with in hands-on projects.</p>
+<div class="skills">
+<div class="skill"><b>☁ AWS</b><span>EC2, VPC, IAM, S3, RDS, EFS, ALB, Auto Scaling, Route 53, CloudWatch</span></div>
+<div class="skill"><b>🏗 Terraform</b><span>Terraform, modules, variables, providers, remote state</span></div>
+<div class="skill"><b>🚀 CI/CD Tools</b><span>Jenkins, Git, GitHub, GitHub Webhooks</span></div>
+<div class="skill"><b>☸ Containers</b><span>Docker, Kubernetes, Helm, Minikube, Docker Hub, Amazon ECR</span></div>
+<div class="skill"><b>📊 Monitoring</b><span>Prometheus, Grafana, CloudWatch</span></div>
+<div class="skill"><b>🔐 Security Tools</b><span>SonarQube, Trivy</span></div>
+<div class="skill"><b>🐧 OS &amp; Web</b><span>Linux, Ubuntu, Amazon Linux, Nginx</span></div>
+<div class="skill"><b>⌨ Scripting &amp; Config</b><span>Bash, Python (basic), YAML, Ansible</span></div>
+<div class="skill"><b>🔀 Version Control</b><span>Git, GitHub, GitLab</span></div>
+</div>
+
+</div></section>
+
+<section id="projects" class="reveal"><div class="wrap"><h2 class="title">Featured Projects</h2><p class="lead">Real hands-on projects from infrastructure provisioning to deployment automation and observability.</p><div class="cards">
+<div class="card tilt"><h3>AWS Multi-Tier Architecture</h3><p class="muted">Multi-tier AWS infrastructure provisioned with modular Terraform and extended using Ansible configuration management.</p><div class="tags"><span class="tag">AWS</span><span class="tag">Terraform</span><span class="tag">Ansible</span><span class="tag">ALB</span><span class="tag">RDS</span><span class="tag">EFS</span></div><p class="muted">Multi-AZ networking, public/private subnets, NAT Gateway, Auto Scaling and automated post-deployment configuration. Includes troubleshooting of SSH, security-group, key-pair and Terraform module issues.</p><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys/terraform-project-3-tier-architecture">View GitHub →</a></div>
+<div class="card tilt"><h3>Automated CI/CD Pipeline</h3><p class="muted">Jenkins-based pipeline integrated with GitHub Webhooks, Docker and AWS EC2 for repeatable deployments.</p><div class="tags"><span class="tag">Jenkins</span><span class="tag">Docker</span><span class="tag">GitHub</span><span class="tag">AWS EC2</span></div><p class="muted">Automatic builds on every code push with an estimated 70% reduction in manual deployment work.</p><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys/CI-CD-Project-by-jenkins-using-docker-as-agent">View GitHub →</a></div>
+<div class="card tilt"><h3>Kubernetes Nginx Deployment</h3><p class="muted">Containerized Nginx application deployed with Kubernetes Deployments, Services, ConfigMaps, Secrets and Namespaces.</p><div class="tags"><span class="tag">Kubernetes</span><span class="tag">Docker</span><span class="tag">YAML</span></div><p class="muted">Managed workload availability and scalability using Labels and Selectors.</p><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys/kubernetes-nginx-project">View GitHub →</a></div>
+<div class="card tilt"><h3>Kubernetes Monitoring Stack</h3><p class="muted">Prometheus and Grafana observability stack installed with the kube-prometheus-stack Helm chart.</p><div class="tags"><span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">Kubernetes</span><span class="tag">Helm</span></div><p class="muted">Dashboards for CPU, memory, node and pod performance, with PrometheusRule-based alerting.</p><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys/kubernetes-monitoring-stack">View GitHub →</a></div>
 </div></div></section>
-<section id="experience" class="reveal"><div class="wrap"><h2 class="title">Training &amp; Certifications</h2><p class="lead">Continuous hands-on learning in cloud infrastructure, DevOps tools and networking.</p><div class="terminal"><div class="bar">training-and-certifications.txt</div><pre><span class="ok">✓</span> DevOps and AWS Training — FITA Academy (2025–2026)
-<span class="ok">✓</span> AWS Certified Cloud Practitioner Essentials — AWS Skill Builder
-<span class="ok">✓</span> CCNAv7: Introduction to Networks — Cisco Networking Academy
-<span class="ok">✓</span> Python Programming — NPTEL
-<span class="cyan">↗</span> Working toward AWS Solutions Architect — Associate (SAA-C03)</pre></div><p class="muted">B.Tech, Computer Science &amp; Engineering (Artificial Intelligence) · Dr. M.G.R. Educational and Research Institute, Chennai · 2022–2026</p></div></section>
-<section id="contact" class="reveal"><div class="wrap"><h2 class="title">Let's Connect</h2><p class="lead">I'm looking for entry-level Cloud and DevOps opportunities where I can contribute to automation and reliable cloud infrastructure.</p><div class="contact"><div class="card"><h3>Email</h3><p class="muted">Reach out for roles, collaboration or project discussions.</p><a class="project-link" href="mailto:eetemanojkumar@gmail.com">eetemanojkumar@gmail.com ↗</a></div><div class="card"><h3>Professional Profiles</h3><p><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys">GitHub ↗</a></p><p><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/manoj-kumar-eete-6a1007375">LinkedIn ↗</a></p></div></div></div></section>
-<section id="resume" class="reveal"><div class="wrap"><h2 class="title">Resume</h2><p class="lead">Download my latest ATS-friendly resume.</p><a class="btn primary" href="resume.pdf" download="Manoj_Kumar_Eete_Resume.pdf">Download Resume</a></div></section>
-</main>
-<footer class="footer"><div class="wrap">© <span id="year">2026</span> Eete Manoj Kumar · Cloud &amp; DevOps Engineer</div></footer>
+
+<section class="reveal"><div class="wrap"><h2 class="title">Live Infrastructure Mindset</h2><div class="terminal"><div class="bar">manoj@cloud-devops:~</div><pre><span class="cyan">$</span> terraform apply
+<span class="ok">✓</span> VPC provisioned
+<span class="ok">✓</span> Private & public subnets configured
+<span class="ok">✓</span> ALB + Auto Scaling ready
+<span class="ok">✓</span> Ansible configuration completed
+
+<span class="cyan">$</span> kubectl get pods
+<span class="ok">✓</span> Applications running
+<span class="ok">✓</span> Monitoring stack healthy</pre></div></div></section>
+
+<section id="experience" class="reveal"><div class="wrap"><h2 class="title">Beyond Engineering</h2><div class="card tilt"><h3>Founder — AltumEra Solution Pvt Ltd</h3><p class="muted">Founded and registered a food & beverages startup under the Startup Kadapa initiative. Secured grant and founder fellowship recognition while leading product planning, execution, documentation and collaboration with mentors and stakeholders.</p><div class="tags"><span class="tag">Leadership</span><span class="tag">Ownership</span><span class="tag">Project Management</span><span class="tag">Problem Solving</span></div></div></div></section>
+
+<section class="reveal"><div class="wrap"><h2 class="title">Education & Certifications</h2><div class="cards"><div class="card tilt"><h3>B.Tech — CSE (Artificial Intelligence)</h3><p class="muted">Dr. M.G.R. Educational and Research Institute, Chennai</p><strong>CGPA: 7.56 / 10</strong></div><div class="card tilt"><h3>Certifications</h3><p class="muted">DevOps & AWS Training — FITA Academy</p><p class="muted">AWS Cloud Practitioner Essentials — AWS Skill Builder</p><p class="muted">CCNAv7 — Cisco Networking Academy</p><p class="muted">Python Programming — NPTEL</p></div></div></div></section>
+
+<section id="contact" class="reveal"><div class="wrap"><h2 class="title">Let's Build Something Reliable.</h2><p class="lead">Open to Cloud Engineer opportunities and engineering conversations.</p><div class="contact"><div class="card"><h3>Email</h3><a class="project-link" href="mailto:eetemanojkumar@gmail.com">eetemanojkumar@gmail.com</a><p class="muted">Hyderabad, Telangana, India</p></div><div class="card"><h3>Connect</h3><p><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://github.com/eetemanojkumar-sys">GitHub →</a></p><p><a class="project-link" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/manoj-kumar-eete-6a1007375">LinkedIn →</a></p></div></div></div></section>
+<footer class="footer"><div class="wrap">© 2026 Eete Manoj Kumar · Cloud Engineer Portfolio.</div></footer>
 <script>
-const toggle=document.querySelector('.menu-toggle');const links=document.querySelector('.links');
-toggle?.addEventListener('click',()=>{const open=links.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});
-links?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle?.setAttribute('aria-expanded','false');}));
-document.getElementById('year').textContent=new Date().getFullYear();
-const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('show');observer.unobserve(entry.target);}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));document.body.classList.add('motion-ready');
+(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const menuButton = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.links');
+
+  if (menuButton && navLinks) {
+    menuButton.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.textContent = open ? 'Close' : 'Menu';
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.textContent = 'Menu';
+    }));
+  }
+
+  const revealItems = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    document.body.classList.add('motion-ready');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -35px 0px' });
+    revealItems.forEach(item => observer.observe(item));
+  } else {
+    revealItems.forEach(item => item.classList.add('show'));
+  }
+
+  const scene = document.getElementById('scene');
+  const tiltCards = document.querySelectorAll('.tilt');
+  if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    tiltCards.forEach(card => {
+      card.addEventListener('pointermove', event => {
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(900px) rotateX(${-y * 5}deg) rotateY(${x * 6}deg) translateY(-3px)`;
+      });
+      card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+    });
+    if (scene) {
+      scene.addEventListener('pointermove', event => {
+        const rect = scene.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+        scene.style.transform = `rotateY(${x * 5}deg) rotateX(${-y * 4}deg)`;
+      });
+      scene.addEventListener('pointerleave', () => { scene.style.transform = ''; });
+    }
+  }
+
+  const canvas = document.getElementById('particles');
+  if (!canvas || reduceMotion) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  let width = 0, height = 0, points = [], raf = 0;
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const count = Math.min(65, Math.floor(width * height / 21000));
+    points = Array.from({ length: count }, () => ({
+      x: Math.random() * width, y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.22,
+      r: Math.random() * 1.4 + 0.4
+    }));
+  }
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > width) p.vx *= -1;
+      if (p.y < 0 || p.y > height) p.vy *= -1;
+      ctx.fillStyle = 'rgba(99,220,255,.5)';
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+      for (let j = i + 1; j < points.length; j++) {
+        const q = points[j], distance = Math.hypot(p.x - q.x, p.y - q.y);
+        if (distance < 115) {
+          ctx.strokeStyle = `rgba(99,220,255,${0.10 * (1 - distance / 115)})`;
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+        }
+      }
+    }
+    raf = requestAnimationFrame(draw);
+  }
+  resize();
+  draw();
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(raf);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { resize(); draw(); }, 120);
+  }, { passive: true });
+})();
 </script>
-</body>
-</html>
+<section id="resume" class="reveal"><div class="wrap"><h2 class="title">Resume</h2><p class="lead">Download my latest ATS-friendly resume.</p><a class="btn primary" href="resume.pdf" download="Manoj_Kumar_Eete_Resume.pdf">Download Resume</a></div></section>
+</body></html>
