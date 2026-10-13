@@ -1,0 +1,13 @@
+aws_region       = "ap-south-1"
+project_name     = "manoj-portfolio"
+environment      = "portfolio"
+instance_type    = "t3.micro"
+
+# Replace with your real public IP /32. Do not use 0.0.0.0/0.
+ssh_allowed_cidr = "203.0.113.10/32"
+
+# Path to your PUBLIC key. Keep the matching private key private.
+public_key_path  = "~/.ssh/manoj_portfolio.pub"
+enable_ssh       = true
+
+root_volume_size = 10
