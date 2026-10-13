@@ -31,32 +31,48 @@ resource "aws_key_pair" "portfolio" {
 locals {
   user_data = <<-USERDATA
     #!/bin/bash
-    set -euxo pipefail
+    set -Eeuo pipefail
     exec > >(tee -a /var/log/portfolio-bootstrap.log) 2>&1
+    trap 'rc=$?; echo "ERROR: bootstrap failed at line $LINENO (exit $rc)"' ERR
     export DEBIAN_FRONTEND=noninteractive
 
+    echo "Starting portfolio EC2 bootstrap: $(date -Is)"
     apt-get update
-    apt-get install -y nginx awscli
+    apt-get install -y nginx awscli snapd
+
+    # Configure Nginx first so HTTP can respond even while SSM initializes.
+    mkdir -p /var/www/html
+    cat > /var/www/html/index.html <<'HTML'
+    <!doctype html>
+    <html lang="en">
+    <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Portfolio setup in progress</title></head>
+    <body><h1>Portfolio server is running</h1><p>Website deployment is initializing. Please refresh shortly.</p></body>
+    </html>
+    HTML
     systemctl enable --now nginx
 
-    # Ubuntu cloud images may use snap-based SSM Agent; install if not already present.
-    if ! systemctl list-unit-files | grep -q 'snap.amazon-ssm-agent'; then
-      snap install amazon-ssm-agent --classic || true
-    fi
-    systemctl enable --now snap.amazon-ssm-agent.amazon-ssm-agent.service || true
+    # Install and start SSM Agent so the server can be managed without SSH/login.
+    snap install amazon-ssm-agent --classic
+    systemctl enable --now snap.amazon-ssm-agent.amazon-ssm-agent.service
+    systemctl is-active --quiet snap.amazon-ssm-agent.amazon-ssm-agent.service
 
-    mkdir -p /var/www/html
-    for attempt in $(seq 1 20); do
+    # The instance role grants read-only access to this bucket. Retry while IAM/S3
+    # permissions and the website upload become available.
+    for attempt in $(seq 1 30); do
       if aws s3 sync "s3://${var.bucket_name}/" /var/www/html/ --region ${data.aws_region.current.name} --delete; then
+        echo "S3 website sync succeeded on attempt $attempt"
         break
       fi
-      sleep 15
+      echo "S3 sync attempt $attempt failed; retrying in 10 seconds"
+      sleep 10
     done
 
     chown -R www-data:www-data /var/www/html
     find /var/www/html -type d -exec chmod 755 {} +
     find /var/www/html -type f -exec chmod 644 {} +
+    nginx -t
     systemctl reload nginx
+    echo "Portfolio EC2 bootstrap completed: $(date -Is)"
   USERDATA
 }
 
