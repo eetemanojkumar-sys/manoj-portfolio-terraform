@@ -1,73 +1,222 @@
+
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WEBSITE_DIR="${ROOT_DIR}/website"
+# ==========================================
+# Portfolio Deployment: S3 + EC2 + Nginx + SSM
+# ==========================================
 
-command -v terraform >/dev/null || { echo "Terraform is required." >&2; exit 1; }
-command -v aws >/dev/null || { echo "AWS CLI is required." >&2; exit 1; }
-command -v python3 >/dev/null || { echo "Python 3 is required." >&2; exit 1; }
-[[ -f "${WEBSITE_DIR}/index.html" ]] || { echo "Missing website/index.html" >&2; exit 1; }
+echo "=========================================="
+echo "Starting Portfolio Deployment"
+echo "=========================================="
 
-BUCKET="$(terraform -chdir="${ROOT_DIR}" output -raw s3_bucket_name)"
-INSTANCE_ID="$(terraform -chdir="${ROOT_DIR}" output -raw ec2_instance_id)"
-REGION="$(terraform -chdir="${ROOT_DIR}" output -raw aws_region)"
+# Read values from Terraform outputs
+BUCKET="$(terraform output -raw s3_bucket_name)"
+INSTANCE_ID="$(terraform output -raw ec2_instance_id)"
+REGION="$(terraform output -raw aws_region)"
+WEBSITE_DIR="website"
 
-echo "Checking SSM connectivity for ${INSTANCE_ID} in ${REGION}..."
-ONLINE=false
-for attempt in $(seq 1 30); do
-  PING_STATUS="$(aws ssm describe-instance-information --region "${REGION}" \
-    --filters "Key=InstanceIds,Values=${INSTANCE_ID}" \
-    --query 'InstanceInformationList[0].PingStatus' --output text 2>/dev/null || true)"
-  if [[ "${PING_STATUS}" == "Online" ]]; then
-    ONLINE=true
-    break
-  fi
-  echo "SSM status: ${PING_STATUS:-Unknown}; waiting 10 seconds (${attempt}/30)"
-  sleep 10
-done
-if [[ "${ONLINE}" != "true" ]]; then
-  echo "ERROR: ${INSTANCE_ID} did not become SSM Online." >&2
-  echo "Check the EC2 instance profile, outbound HTTPS access, and cloud-init/bootstrap log." >&2
-  echo "On the instance, the bootstrap log is /var/log/portfolio-bootstrap.log." >&2
+# Validate required values
+if [[ -z "${BUCKET}" || -z "${INSTANCE_ID}" || -z "${REGION}" ]]; then
+  echo "ERROR: Missing required Terraform outputs."
   exit 1
 fi
 
-echo "Uploading website/ to s3://${BUCKET}/ ..."
-aws s3 sync "${WEBSITE_DIR}/" "s3://${BUCKET}/" --delete --region "${REGION}"
+if [[ ! -d "${WEBSITE_DIR}" ]]; then
+  echo "ERROR: Website directory '${WEBSITE_DIR}' not found."
+  exit 1
+fi
 
-PARAMS="$(python3 -c 'import json,sys; print(json.dumps({"commands":sys.argv[1:]}))' \
-  "set -e" \
-  "aws s3 sync s3://${BUCKET}/ /var/www/html/ --delete --region ${REGION}" \
-  "chown -R www-data:www-data /var/www/html" \
-  "find /var/www/html -type d -exec chmod 755 {} +" \
-  "find /var/www/html -type f -exec chmod 644 {} +" \
-  "nginx -t" \
-  "systemctl reload nginx")"
+if [[ ! -f "${WEBSITE_DIR}/index.html" ]]; then
+  echo "ERROR: ${WEBSITE_DIR}/index.html not found."
+  exit 1
+fi
 
-COMMAND_ID="$(aws ssm send-command --region "${REGION}" --instance-ids "${INSTANCE_ID}" \
-  --document-name AWS-RunShellScript --comment "Refresh portfolio website from S3" \
-  --parameters "${PARAMS}" --query 'Command.CommandId' --output text)"
+echo "S3 bucket:   ${BUCKET}"
+echo "EC2 instance: ${INSTANCE_ID}"
+echo "AWS region:  ${REGION}"
 
-echo "SSM command submitted: ${COMMAND_ID}"
+# ==========================================
+# Wait for EC2 to register with SSM
+# ==========================================
+
+echo "Waiting for EC2 instance to become available in SSM..."
+
+SSM_READY="false"
+
 for attempt in $(seq 1 30); do
-  STATUS="$(aws ssm get-command-invocation --region "${REGION}" --command-id "${COMMAND_ID}" \
-    --instance-id "${INSTANCE_ID}" --query Status --output text 2>/dev/null || true)"
-  case "${STATUS}" in
-    Success)
-      echo "Deployment succeeded."
-      echo "EC2: $(terraform -chdir="${ROOT_DIR}" output -raw ec2_url)"
-      echo "S3:  $(terraform -chdir="${ROOT_DIR}" output -raw s3_website_endpoint)"
-      exit 0 ;;
-    Failed|Cancelled|TimedOut|Undeliverable|Terminated)
-      aws ssm get-command-invocation --region "${REGION}" --command-id "${COMMAND_ID}" \
-        --instance-id "${INSTANCE_ID}" \
-        --query '{Status:Status,Output:StandardOutputContent,Error:StandardErrorContent}' --output json || true
-      echo "Deployment failed: ${STATUS}" >&2
-      exit 1 ;;
-  esac
-  sleep 5
+  STATUS="$(aws ssm describe-instance-information \
+    --region "${REGION}" \
+    --filters "Key=InstanceIds,Values=${INSTANCE_ID}" \
+    --query 'InstanceInformationList[0].PingStatus' \
+    --output text 2>/dev/null || true)"
+
+  if [[ "${STATUS}" == "Online" ]]; then
+    SSM_READY="true"
+    break
+  fi
+
+  echo "SSM status: ${STATUS}. Attempt ${attempt}/30"
+  sleep 10
 done
 
-echo "SSM command is still running after waiting. Check Systems Manager Run Command history." >&2
-exit 2
+if [[ "${SSM_READY}" != "true" ]]; then
+  echo "ERROR: EC2 instance did not become online in SSM."
+  echo "Check the instance IAM role, SSM Agent, and network connectivity."
+  exit 1
+fi
+
+echo "EC2 instance is online in SSM."
+
+# ==========================================
+# Upload website files to S3
+# ==========================================
+
+echo "Uploading ${WEBSITE_DIR}/ to s3://${BUCKET}/ ..."
+
+aws s3 sync "${WEBSITE_DIR}/" "s3://${BUCKET}/" \
+  --delete \
+  --region "${REGION}"
+
+echo "Website uploaded to S3 successfully."
+
+# ==========================================
+# Build the remote deployment command
+# ==========================================
+
+REMOTE_SCRIPT="$(cat <<EOF
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+echo "Checking AWS CLI installation..."
+
+if ! command -v aws >/dev/null 2>&1; then
+  export DEBIAN_FRONTEND=noninteractive
+
+  apt-get update
+  apt-get install -y curl unzip
+
+  curl -fsSL \
+    https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
+    -o /tmp/awscliv2.zip
+
+  unzip -qo /tmp/awscliv2.zip -d /tmp
+  /tmp/aws/install
+
+  rm -rf /tmp/aws /tmp/awscliv2.zip
+fi
+
+aws --version
+
+echo "Downloading portfolio files from S3..."
+mkdir -p /var/www/html
+
+aws s3 sync "s3://${BUCKET}/" /var/www/html/ \
+  --delete \
+  --region "${REGION}"
+
+echo "Setting file ownership and permissions..."
+chown -R www-data:www-data /var/www/html
+find /var/www/html -type d -exec chmod 755 {} +
+find /var/www/html -type f -exec chmod 644 {} +
+
+echo "Checking Nginx configuration..."
+nginx -t
+
+echo "Reloading Nginx..."
+systemctl reload nginx
+
+echo "Remote deployment completed."
+EOF
+)"
+
+# Encode the entire remote script as one SSM command.
+# This keeps installation and deployment in the same shell.
+PARAMS="$(python3 -c '
+import json, sys
+print(json.dumps({"commands": [sys.stdin.read()]}))
+' <<< "${REMOTE_SCRIPT}")"
+
+# ==========================================
+# Execute the deployment through SSM
+# ==========================================
+
+echo "Sending deployment command to EC2..."
+
+COMMAND_ID="$(aws ssm send-command \
+  --region "${REGION}" \
+  --instance-ids "${INSTANCE_ID}" \
+  --document-name "AWS-RunShellScript" \
+  --comment "Deploy portfolio from S3 to Nginx" \
+  --parameters "${PARAMS}" \
+  --query 'Command.CommandId' \
+  --output text)"
+
+echo "SSM Command ID: ${COMMAND_ID}"
+
+# ==========================================
+# Wait for the SSM command to finish
+# ==========================================
+
+echo "Waiting for deployment to finish..."
+
+if ! aws ssm wait command-executed \
+  --region "${REGION}" \
+  --command-id "${COMMAND_ID}" \
+  --instance-id "${INSTANCE_ID}"; then
+
+  echo "WARNING: SSM waiter reported that the command did not complete successfully."
+fi
+
+# Retrieve the final status
+INVOCATION="$(aws ssm get-command-invocation \
+  --region "${REGION}" \
+  --command-id "${COMMAND_ID}" \
+  --instance-id "${INSTANCE_ID}" \
+  --output json)"
+
+STATUS="$(python3 -c '
+import json, sys
+print(json.load(sys.stdin).get("Status", "Unknown"))
+' <<< "${INVOCATION}")"
+
+echo "Deployment status: ${STATUS}"
+
+if [[ "${STATUS}" != "Success" ]]; then
+  echo "ERROR: Remote deployment failed."
+
+  python3 -c '
+import json, sys
+data = json.load(sys.stdin)
+print("Standard output:")
+print(data.get("StandardOutputContent", ""))
+print("Standard error:")
+print(data.get("StandardErrorContent", ""))
+' <<< "${INVOCATION}"
+
+  exit 1
+fi
+
+# ==========================================
+# Verify the website endpoint
+# ==========================================
+
+URL="$(terraform output -raw ec2_url 2>/dev/null || true)"
+
+if [[ -n "${URL}" ]]; then
+  echo "Checking website: ${URL}"
+
+  if curl --fail --silent --show-error \
+    --retry 5 --retry-delay 3 --retry-connrefused \
+    --output /dev/null "${URL}"; then
+    echo "Website HTTP check passed."
+  else
+    echo "WARNING: Deployment succeeded, but the HTTP check failed."
+    echo "Check the EC2 security group, Nginx, and the website URL."
+    exit 1
+  fi
+fi
+
+echo "=========================================="
+echo "Portfolio Deployment Completed Successfully"
+echo "=========================================="
