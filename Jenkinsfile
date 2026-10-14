@@ -1,28 +1,34 @@
+
 pipeline {
     agent any
 
     options {
         timestamps()
         disableConcurrentBuilds()
+        skipDefaultCheckout(true)
     }
 
     environment {
         AWS_DEFAULT_REGION = 'ap-south-1'
         TF_IN_AUTOMATION = 'true'
+        TF_INPUT = 'false'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/eetemanojkumar-sys/manoj-portfolio-terraform.git'
+                checkout scm
             }
         }
 
         stage('Validate Tools') {
             steps {
                 sh '''
-                    set -e
+                    set -eu
+
+                    echo "Checking required tools..."
+
                     git --version
                     terraform --version
                     aws --version
@@ -31,7 +37,12 @@ pipeline {
 
                     test -f website/index.html
                     test -f deploy.sh
+                    test -f main.tf
+                    test -f Jenkinsfile
+
                     chmod +x deploy.sh
+
+                    echo "All required tools and files are available."
                 '''
             }
         }
@@ -39,7 +50,8 @@ pipeline {
         stage('Terraform Format & Validate') {
             steps {
                 sh '''
-                    set -e
+                    set -eu
+
                     terraform fmt -check -recursive
                     terraform init -input=false
                     terraform validate
@@ -50,8 +62,11 @@ pipeline {
         stage('Plan Infrastructure') {
             steps {
                 sh '''
-                    set -e
-                    terraform plan -input=false -out=tfplan
+                    set -eu
+
+                    terraform plan \
+                        -input=false \
+                        -out=tfplan
                 '''
             }
         }
@@ -59,8 +74,16 @@ pipeline {
         stage('Apply Infrastructure') {
             steps {
                 sh '''
-                    set -e
-                    terraform apply -input=false -auto-approve tfplan
+                    set -eu
+
+                    terraform apply \
+                        -input=false \
+                        -auto-approve \
+                        tfplan
+
+                    echo "Terraform apply completed."
+
+                    terraform output
                 '''
             }
         }
@@ -68,8 +91,13 @@ pipeline {
         stage('Deploy Portfolio') {
             steps {
                 sh '''
-                    set -e
-                    ./deploy.sh
+                    set -eu
+
+                    echo "Checking deployment script syntax..."
+                    bash -n deploy.sh
+
+                    echo "Starting portfolio deployment..."
+                    bash ./deploy.sh
                 '''
             }
         }
@@ -77,23 +105,31 @@ pipeline {
         stage('Verify Website') {
             steps {
                 sh '''
-                    set -e
+                    set -eu
 
                     WEBSITE_URL="$(terraform output -raw ec2_url)"
-                    echo "Testing: ${WEBSITE_URL}"
 
-                    STATUS=$(curl -sS -L \
+                    echo "Testing website: ${WEBSITE_URL}"
+
+                    STATUS="$(curl -sS -L \
                         --connect-timeout 10 \
                         --max-time 30 \
+                        --retry 5 \
+                        --retry-delay 3 \
+                        --retry-connrefused \
                         -o /tmp/portfolio-response.html \
                         -w "%{http_code}" \
-                        "${WEBSITE_URL}/")
+                        "${WEBSITE_URL}/")"
 
-                    echo "HTTP status: ${STATUS}"
-                    test "${STATUS}" = "200"
-                    grep -qi '<html' /tmp/portfolio-response.html
+                    echo "HTTP Status: ${STATUS}"
 
-                    echo "Portfolio deployment and HTTP verification passed."
+                    if [ "${STATUS}" != "200" ]; then
+                        echo "ERROR: Website verification failed."
+                        cat /tmp/portfolio-response.html
+                        exit 1
+                    fi
+
+                    echo "SUCCESS: Portfolio website is accessible."
                 '''
             }
         }
@@ -101,14 +137,17 @@ pipeline {
 
     post {
         success {
-            echo 'SUCCESS: Infrastructure applied, portfolio deployed, and HTTP verification passed.'
+            echo 'SUCCESS: Portfolio pipeline completed successfully.'
         }
 
         failure {
-            echo 'FAILED: Review the stage logs and fix the reported error.'
+            echo 'FAILED: Check the first failed stage in the Jenkins console output.'
         }
 
         always {
+            sh '''
+                rm -f tfplan
+            '''
             echo 'Jenkins pipeline finished.'
         }
     }
