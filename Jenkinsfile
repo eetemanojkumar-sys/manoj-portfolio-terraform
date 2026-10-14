@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -9,6 +8,7 @@ pipeline {
 
     environment {
         AWS_DEFAULT_REGION = 'ap-south-1'
+        TF_IN_AUTOMATION = 'true'
     }
 
     stages {
@@ -27,6 +27,7 @@ pipeline {
                     terraform --version
                     aws --version
                     python3 --version
+                    curl --version
 
                     test -f website/index.html
                     test -f deploy.sh
@@ -40,8 +41,26 @@ pipeline {
                 sh '''
                     set -e
                     terraform fmt -check -recursive
-                    terraform init -backend=false
+                    terraform init -input=false
                     terraform validate
+                '''
+            }
+        }
+
+        stage('Plan Infrastructure') {
+            steps {
+                sh '''
+                    set -e
+                    terraform plan -input=false -out=tfplan
+                '''
+            }
+        }
+
+        stage('Apply Infrastructure') {
+            steps {
+                sh '''
+                    set -e
+                    terraform apply -input=false -auto-approve tfplan
                 '''
             }
         }
@@ -71,7 +90,6 @@ pipeline {
                         "${WEBSITE_URL}/")
 
                     echo "HTTP status: ${STATUS}"
-
                     test "${STATUS}" = "200"
                     grep -qi '<html' /tmp/portfolio-response.html
 
@@ -83,7 +101,7 @@ pipeline {
 
     post {
         success {
-            echo 'SUCCESS: Portfolio deployed and verified.'
+            echo 'SUCCESS: Infrastructure applied, portfolio deployed, and HTTP verification passed.'
         }
 
         failure {
