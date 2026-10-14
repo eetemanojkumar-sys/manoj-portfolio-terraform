@@ -2,7 +2,7 @@ data "aws_iam_policy_document" "ec2_assume_role" {
   statement {
     effect = "Allow"
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["ec2.amazonaws.com"]
     }
     actions = ["sts:AssumeRole"]
@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "ec2_assume_role" {
 }
 
 resource "aws_iam_role" "ec2" {
-  name = "${var.project_name}-ec2-role"
+  name               = "${var.project_name}-ec2-role"
   assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
 }
 
@@ -27,7 +27,7 @@ resource "aws_iam_role_policy" "read_website" {
 }
 
 resource "aws_iam_role_policy_attachment" "ssm_core" {
-  role = aws_iam_role.ec2.name
+  role       = aws_iam_role.ec2.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 

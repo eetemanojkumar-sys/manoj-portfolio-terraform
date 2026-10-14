@@ -6,8 +6,8 @@ variable "instance_profile_name" { type = string }
 variable "bucket_name" { type = string }
 variable "enable_ssh" { type = bool }
 variable "public_key_path" {
-  type = string
+  type     = string
   nullable = true
-  default = null
+  default  = null
 }
 variable "root_volume_size" { type = number }
