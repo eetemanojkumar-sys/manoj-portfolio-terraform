@@ -37,10 +37,20 @@ locals {
     export DEBIAN_FRONTEND=noninteractive
 
     echo "Starting portfolio EC2 bootstrap: $(date -Is)"
-    apt-get update
-    apt-get install -y nginx awscli snapd
 
-    # Configure Nginx first so HTTP can respond even while SSM initializes.
+    # Install packages available in Ubuntu 24.04. Do not install awscli via apt:
+    # its package may be unavailable on the selected Ubuntu AMI.
+    apt-get update
+    apt-get install -y nginx snapd curl unzip
+
+    # Install AWS CLI v2 using the official AWS installer.
+    curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o /tmp/awscliv2.zip
+    unzip -q /tmp/awscliv2.zip -d /tmp
+    /tmp/aws/install
+    rm -rf /tmp/aws /tmp/awscliv2.zip
+    aws --version
+
+    # Keep HTTP available while SSM and the initial S3 sync start.
     mkdir -p /var/www/html
     cat > /var/www/html/index.html <<'HTML'
     <!doctype html>
@@ -51,21 +61,25 @@ locals {
     HTML
     systemctl enable --now nginx
 
-    # Install and start SSM Agent so the server can be managed without SSH/login.
+    # Install and start SSM Agent for management without SSH.
     snap install amazon-ssm-agent --classic
     systemctl enable --now snap.amazon-ssm-agent.amazon-ssm-agent.service
     systemctl is-active --quiet snap.amazon-ssm-agent.amazon-ssm-agent.service
 
-    # The instance role grants read-only access to this bucket. Retry while IAM/S3
-    # permissions and the website upload become available.
+    # Wait for IAM permissions and the website objects to become available.
+    SYNCED=false
     for attempt in $(seq 1 30); do
       if aws s3 sync "s3://${var.bucket_name}/" /var/www/html/ --region ${data.aws_region.current.name} --delete; then
         echo "S3 website sync succeeded on attempt $attempt"
+        SYNCED=true
         break
       fi
       echo "S3 sync attempt $attempt failed; retrying in 10 seconds"
       sleep 10
     done
+    if [ "$SYNCED" != "true" ]; then
+      echo "WARNING: Initial S3 sync did not succeed; Jenkins deployment can retry after SSM is online."
+    fi
 
     chown -R www-data:www-data /var/www/html
     find /var/www/html -type d -exec chmod 755 {} +
